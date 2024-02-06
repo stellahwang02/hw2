@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include "product.h"
+#include "mydatastore.h"
 
 class ProductParser
 {
