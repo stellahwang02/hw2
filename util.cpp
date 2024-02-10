@@ -14,6 +14,34 @@ std::string convToLower(std::string src)
     to a set of words based on the criteria given in the assignment **/
 std::set<std::string> parseStringToWords(std::string rawWords)
 {
+  
+  rawWords = convToLower(rawWords);
+
+  std::set<std::string> retval;
+  std::string tok;
+  std::istringstream ss(rawWords);
+
+  while (ss >> tok) {
+    size_t i = 0;
+    while (tok.size() > 0 && i < tok.size()) {
+      if (ispunct(tok[i])) {
+        if (i > 1) {
+          std::string temp = tok.substr(0,i);
+          retval.insert(temp);
+        }
+        tok = tok.substr(i+1);
+        i=0;
+        continue;
+      }
+      i++;
+    }
+    if (i >= 2) {
+      std::string temp = tok.substr(0,i);
+      retval.insert(temp);
+    }
+  }
+  return retval;
+  /*
   std::set<std::string> setString;
   std::string substr;
 
@@ -33,10 +61,49 @@ std::set<std::string> parseStringToWords(std::string rawWords)
     }
     
   }
-  
   return setString;
+  */
 }
+/*
+std::set<std::string> parse(std::string tok) {
+  std::set<std::string> words;
+  size_t start = 0, end = tok.size();
+  while(start < end && ispunct(tok[start])) {
+    start++;
+  }
+  while(end>start && ispunct(tok[end-1])) {
+    end--;
+  }
+  if ((end-start) > 1) {
+    tok = tok.substr(start, end-start);
 
+    start=0;
+    end = 0;
+    for (size_t i=0; i<tok.size(); i++) {
+      if (ispunct(tok[i]) && tok[i] != '-') {
+        return words;
+      }
+    }
+    convToLower(tok);
+
+    while(tok.size() > 0 && end < tok.size()) {
+      if (tok[end] == '-') {
+        if (end >1) {
+          std::string term = tok.substr(0, end);
+          words.insert(term);
+        }
+        tok = tok.substr(end+1);
+        end=0;
+        continue;
+      }
+      end++;
+    }
+    std::string term = tok.substr(0, end);
+    words.insert(term);
+  }
+  return words;
+}
+*/
 /**************************************************
  * COMPLETED - You may use the following functions
  **************************************************/

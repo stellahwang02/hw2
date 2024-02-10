@@ -1,14 +1,23 @@
-#include "movie.h"
 #include <iostream>
-#include "util.cpp"
-#include "product.cpp"
+#include <iomanip>  
+#include <sstream>
+#include "movie.h"
+#include "util.h"
 
 using namespace std;
 
 // constructor definition
 Movie::Movie(const string& category, const string& name, double price, int qty,
              const string& genre, const string& rating)
-    : Product(category, name, price, qty), genre_(genre), rating_(rating) {}
+    : Product(category, name, price, qty), genre_(genre), rating_(rating)
+{
+  
+}
+
+Movie::~Movie() 
+{
+
+}
 
 // return keywords
 set<string> Movie::keywords() const {
@@ -32,14 +41,16 @@ set<string> Movie::keywords() const {
 
 // return display string
 string Movie::displayString() const {
-  string displayStr = name_ + "\nGenre: " + genre_ + " Rating: " + rating_ +
-           "\n$" + to_string(price_) + " " + to_string(qty_) + " left.";
-  return displayStr;
+  std::ostringstream inf;
+  inf << name_ << "\nGenre: " << genre_ << " Rating: " << rating_ << "\n" 
+  << fixed << setprecision(2) << price_ << " " << qty_ << " left.\n";
+  return inf.str();
 }
 
 // output database format 
 void Movie::dump(ostream &os) const {
-  Product::dump(os);
-  cout << genre_ << "\n";
-  cout <<  rating_;
+  // Product::dump(os);
+  // os << genre_ << "\n";
+  // os << rating_ << endl;
+    os << category_ << "\n" << name_ << "\n" << fixed << setprecision(2) << price_ << "\n" << qty_ << "\n" << genre_ << "\n" << rating_ << endl;
 }

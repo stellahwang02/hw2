@@ -6,9 +6,12 @@
 #include <iomanip>
 #include <algorithm>
 #include "product.h"
+#include "mydatastore.h"
 #include "db_parser.h"
 #include "product_parser.h"
 #include "util.h"
+#include "mydatastore.cpp"
+#include "user.h"
 
 using namespace std;
 struct ProdNameSorter {
@@ -29,7 +32,7 @@ int main(int argc, char* argv[])
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
      ****************/
-    DataStore ds;
+    MyDataStore ds;
 
 
 
@@ -63,6 +66,8 @@ int main(int argc, char* argv[])
 
     vector<Product*> hits;
     bool done = false;
+    // std::string username; // added
+    
     while(!done) {
         cout << "\nEnter command: " << endl;
         string line;
@@ -99,19 +104,72 @@ int main(int argc, char* argv[])
                 }
                 done = true;
             }
-	    /* Add support for other commands here */
 
+            else if ( cmd == "ADD") {
+              string username;
+              int hitNum;
+              ss >> username;
+              ss >> hitNum;
+              if(hitNum <= 0 || hitNum > hits.size()){
+                cout << "Invalid request" << endl;
+                continue; 
+              }
+              //cout << "BEFORE ADD: " << username << " " << hitNum << endl;
+              ds.addToCart(username, hits[hitNum-1]);
 
-
-
-            else {
-                cout << "Unknown command" << endl;
+              
+              // if (ss >> username >> hitNum) {
+              //     User* user = ds.findUser(username);
+              //     if (user == nullptr) {
+              //         cout << "Invalid request" << endl;
+              //     } else if (hitNum < 1 || hitNum > hits.size()) {
+              //         cout << "Invalid request" << endl;
+              //     } else {
+              //         Product* product = hits[hitNum-1];
+              //         ds.addToCart(username, product);
+              //         cout << endl;
+              //     }
+              // }
             }
-        }
+          
 
-    }
-    return 0;
+            else if (cmd == "BUYCART") {
+              string username;
+              ss >> username;
+              ds.buyCart(username);
+              // if (ss >> username) {
+              //   if (ds.findUser(username) == nullptr) {
+              //     cout << "Invalid username\n" << endl;
+              //   }
+              //   else {
+              //     ds.buyCart(username);
+              //   }
+              // }
+            }
+
+            else if (cmd == "VIEWCART") {
+              string username;
+              ss >> username;
+              //cout << "BEFORE VIEW: " << username << endl;
+              ds.viewCart(username);
+              
+            //   if (ss >> username) {
+            //     if (ds.findUser(username) == nullptr) {
+            //       cout << "Invalid username\n" << endl;
+            //     }
+            //     else {
+            //       ds.viewCart(username);
+            //     }
+            // }
+         }
+         else {
+          cout << "Unknown command" << endl;
+         }
+  }
 }
+  return 0;
+}
+  
 
 void displayProducts(vector<Product*>& hits)
 {

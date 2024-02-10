@@ -1,13 +1,22 @@
+#include <iostream>
+#include "util.h"
+#include <iomanip>  
+#include <sstream>
 #include "clothing.h"
-#include <iostream>
-#include "util.cpp"
-#include "product.cpp"
-#include <iostream>
+
 using namespace std;
 
 Clothing::Clothing(const string& category, const string& name, double price, int qty,
                    const string& size, const string& brand)
-    : Product(category, name, price, qty), size_(size), brand_(brand) {}
+    : Product(category, name, price, qty), size_(size), brand_(brand)
+{
+
+}
+
+Clothing::~Clothing() 
+{
+
+}
 
 set<string> Clothing::keywords() const {
   set<string> name = parseStringToWords(name_);
@@ -29,14 +38,17 @@ set<string> Clothing::keywords() const {
 }
 
 string Clothing::displayString() const {
-    return name_ + "\nSize: " + size_ +
-           "\n$" + to_string(price_) + " " + to_string(qty_) + " left.";
-}
+  std::ostringstream inf;
+  inf << name_ << "\nSize: " << size_ << " Brand: " << brand_ << "\n" 
+      << fixed << setprecision(2) << price_ << " " << qty_ << " left.\n";
+  return inf.str();
+  }
 
 void Clothing::dump(ostream &os) const {
-  Product::dump(os);
-  cout << size_ << "\n";
-  cout << brand_;
+  // Product::dump(os);
+  // os << size_ << "\n";
+  // os << brand_ << endl;
+    os << category_ << "\n" << name_ << "\n" << fixed << setprecision(2) << price_ << "\n" << qty_ << "\n" << size_ << "\n" << brand_ << endl;
 }
 
 

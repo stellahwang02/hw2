@@ -12,11 +12,7 @@
  */
 template <typename T>
 std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
-{ // assume the set is not sorted ()
-// for loop -- if statement inside -- iterate thru s1
-// check s2.find() is not equal to s2.end()
-// if not,  insert it back to the vector
-
+{ 
   std::set<T> intersectionSet;
   typename std::set<T>::const_iterator it1 = s1.begin();
   typename std::set<T>::const_iterator it2 = s2.begin();
@@ -24,10 +20,10 @@ std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
   // Iterate through set1
   for (it1 = s1.begin(); it1 != s1.end(); ++it1) {
     // If the element exists in set2, add it to intersectionSet
-      if (s2.find(*it2) != s2.end()) {
-          intersectionSet.insert(*it2);
+      if (s2.find(*it1) != s2.end()) {
+          intersectionSet.insert(*it1);
       }
-    }
+  }
   return intersectionSet;
 }
 

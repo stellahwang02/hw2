@@ -11,6 +11,7 @@ class Clothing : public Product {
     // Constructor 
     Clothing(const string& category, const string& name, double price, int qty,
             const string& size, const string& brand);
+    ~Clothing();
 
     // Member functions
     set<string> keywords() const;
